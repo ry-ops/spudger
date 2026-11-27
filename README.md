@@ -1,5 +1,9 @@
 # Spudger
 
+<p align="center">
+  <img src="assets/hero-potato-surgeon.svg" alt="A potato surgeon using a spudger to operate on a TV that flickers to life playing music" width="820">
+</p>
+
 > A spudger is the nylon pry tool every teardown uses to pop open a sealed
 > device without cracking the case. This project does the software equivalent
 > for a **Samsung Tizen TV**: it pries the set open — through Samsung's own
@@ -17,6 +21,10 @@ TV-remote media controls — running on a `QN43Q60DAFXZA` (Tizen 9).
 Everything here uses tools Samsung *ships and documents*: Developer Mode, `sdb`
 (Samsung Debug Bridge), Tizen Studio, Samsung-issued certificates bound to the
 device's DUID, and Samsung's own [`tizen-agent-skills`](https://github.com/Samsung/tizen-agent-skills).
+
+<p align="center">
+  <img src="assets/about.svg" alt="Your app, unlocked with Samsung's own keys, onto a TV that becomes yours" width="820">
+</p>
 
 **On ethics:** we do not condone piracy, DRM circumvention, or breaking into
 devices you don't own. See [`docs/adr/0001-sanctioned-techniques-not-piracy.md`](docs/adr/0001-sanctioned-techniques-not-piracy.md).
@@ -47,6 +55,18 @@ spudger/
     └── adr/                # architecture / policy decision records
         └── 0001-sanctioned-techniques-not-piracy.md
 ```
+
+## Tools
+
+<p align="center">
+  <img src="assets/tools.svg" alt="connect.sh, sideload.sh, and probe.py driving an sdb link from the Mac to the TV" width="820">
+</p>
+
+- **`connect.sh`** — closes the IDE, starts a plain `sdb` server, and connects
+  reliably (the `--only-detect-tizen` fix).
+- **`sideload.sh`** — package → sign → install → launch.
+- **`probe.py`** — raw sdb `CNXN` handshake to prove whether the TV's `sdbd` is
+  healthy when the CLI won't connect.
 
 ## Quick start
 

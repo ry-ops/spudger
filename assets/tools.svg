@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 320" width="820" height="320" role="img" aria-label="Spudger tools: connect.sh, sideload.sh, probe.py, driving a Mac-to-TV sdb link">
+  <defs>
+    <linearGradient id="tcard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#121a22"/>
+      <stop offset="100%" stop-color="#0d141b"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="820" height="320" rx="18" fill="#0b0f14"/>
+
+  <!-- ===== top: Mac <-> sdb <-> TV ===== -->
+  <g font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+    <!-- Mac -->
+    <g transform="translate(96,56)">
+      <rect x="0" y="0" width="92" height="60" rx="6" fill="#15202b" stroke="#2a3a47" stroke-width="2"/>
+      <rect x="8" y="8" width="76" height="44" rx="3" fill="#06110d"/>
+      <text x="46" y="35" text-anchor="middle" font-size="11" fill="#35d28c" font-family="monospace">~/$</text>
+      <rect x="-10" y="60" width="112" height="7" rx="3" fill="#2a3a47"/>
+      <text x="46" y="88" text-anchor="middle" font-size="12" fill="#9fb4ad">Mac (host)</text>
+    </g>
+
+    <!-- link -->
+    <line x1="210" y1="84" x2="606" y2="84" stroke="#223240" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/>
+    <circle cx="210" cy="84" r="5" fill="#35d28c">
+      <animate attributeName="cx" values="210;606" dur="1.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;1;0" keyTimes="0;0.85;1" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="210" cy="84" r="4" fill="#2ecf86" opacity="0.6">
+      <animate attributeName="cx" values="210;606" dur="1.8s" begin="0.9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.6;0" keyTimes="0;0.85;1" dur="1.8s" begin="0.9s" repeatCount="indefinite"/>
+    </circle>
+    <rect x="368" y="62" width="88" height="20" rx="10" fill="#15202b" stroke="#2a3a47" stroke-width="1"/>
+    <text x="412" y="76" text-anchor="middle" font-size="11" fill="#7fae9c" font-family="monospace">sdb · 26101</text>
+
+    <!-- TV -->
+    <g transform="translate(612,44)">
+      <rect x="0" y="0" width="118" height="80" rx="8" fill="#15202b" stroke="#2a3a47" stroke-width="2"/>
+      <rect x="10" y="10" width="98" height="60" rx="4" fill="#06110d"/>
+      <g>
+        <rect x="30" y="44" width="8" height="14" rx="2" fill="#35d28c"><animate attributeName="height" values="8;22;8" dur="0.9s" repeatCount="indefinite"/><animate attributeName="y" values="50;36;50" dur="0.9s" repeatCount="indefinite"/></rect>
+        <rect x="44" y="38" width="8" height="20" rx="2" fill="#2ecf86"><animate attributeName="height" values="20;8;20" dur="0.9s" repeatCount="indefinite"/><animate attributeName="y" values="38;50;38" dur="0.9s" repeatCount="indefinite"/></rect>
+        <rect x="58" y="40" width="8" height="18" rx="2" fill="#35d28c"><animate attributeName="height" values="12;22;12" dur="0.9s" repeatCount="indefinite"/><animate attributeName="y" values="46;36;46" dur="0.9s" repeatCount="indefinite"/></rect>
+        <rect x="72" y="42" width="8" height="16" rx="2" fill="#2ecf86"><animate attributeName="height" values="22;10;22" dur="0.9s" repeatCount="indefinite"/><animate attributeName="y" values="36;48;36" dur="0.9s" repeatCount="indefinite"/></rect>
+      </g>
+      <rect x="52" y="80" width="14" height="8" fill="#0d151c"/>
+      <rect x="34" y="88" width="50" height="6" rx="3" fill="#0d151c"/>
+      <text x="59" y="112" text-anchor="middle" font-size="12" fill="#9fb4ad">Samsung TV</text>
+    </g>
+  </g>
+
+  <!-- ===== three tool cards ===== -->
+  <g font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+    <!-- connect.sh -->
+    <g transform="translate(40,168)">
+      <rect x="0" y="0" width="230" height="120" rx="12" fill="url(#tcard)" stroke="#223240" stroke-width="1.5"/>
+      <!-- plugs meeting -->
+      <g transform="translate(115,44)">
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="-10 0;-2 0;-10 0" dur="1.6s" repeatCount="indefinite"/>
+          <rect x="-44" y="-9" width="30" height="18" rx="3" fill="#35d28c"/>
+          <rect x="-14" y="-5" width="8" height="4" fill="#0b0f14"/>
+          <rect x="-14" y="1" width="8" height="4" fill="#0b0f14"/>
+        </g>
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="10 0;2 0;10 0" dur="1.6s" repeatCount="indefinite"/>
+          <rect x="14" y="-11" width="30" height="22" rx="3" fill="#2a3a47"/>
+          <rect x="8" y="-5" width="8" height="4" fill="#35d28c"/>
+          <rect x="8" y="1" width="8" height="4" fill="#35d28c"/>
+        </g>
+        <circle cx="0" cy="0" r="12" fill="none" stroke="#35d28c" stroke-width="2" opacity="0">
+          <animate attributeName="r" values="4;20" dur="1.6s" begin="0.7s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0" dur="1.6s" begin="0.7s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+      <text x="115" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#eaf6ef" font-family="monospace">connect.sh</text>
+      <text x="115" y="106" text-anchor="middle" font-size="10.5" fill="#8aa39b">plain sdb server · reliable connect</text>
+    </g>
+
+    <!-- sideload.sh -->
+    <g transform="translate(295,168)">
+      <rect x="0" y="0" width="230" height="120" rx="12" fill="url(#tcard)" stroke="#223240" stroke-width="1.5"/>
+      <!-- mini TV target -->
+      <rect x="150" y="26" width="52" height="38" rx="5" fill="#15202b" stroke="#2a3a47" stroke-width="1.5"/>
+      <rect x="156" y="32" width="40" height="26" rx="2" fill="#06110d"/>
+      <!-- package flying in -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;140 0" dur="1.9s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;1;0" keyTimes="0;0.8;1" dur="1.9s" repeatCount="indefinite"/>
+        <g transform="translate(28,44)">
+          <rect x="-11" y="-11" width="22" height="22" rx="3" fill="#f2c14e" stroke="#b9801f" stroke-width="1.5"/>
+          <path d="M-11,-3 L11,-3" stroke="#b9801f" stroke-width="1.5"/>
+          <path d="M0,-11 L0,-3" stroke="#b9801f" stroke-width="1.5"/>
+        </g>
+      </g>
+      <!-- screen lights up on arrival -->
+      <rect x="156" y="32" width="40" height="26" rx="2" fill="#35d28c" opacity="0">
+        <animate attributeName="opacity" values="0;0;0.85;0" keyTimes="0;0.78;0.85;1" dur="1.9s" repeatCount="indefinite"/>
+      </rect>
+      <text x="115" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#eaf6ef" font-family="monospace">sideload.sh</text>
+      <text x="115" y="106" text-anchor="middle" font-size="10.5" fill="#8aa39b">package · sign · install · launch</text>
+    </g>
+
+    <!-- probe.py -->
+    <g transform="translate(550,168)">
+      <rect x="0" y="0" width="230" height="120" rx="12" fill="url(#tcard)" stroke="#223240" stroke-width="1.5"/>
+      <!-- sonar ping -->
+      <g transform="translate(115,44)">
+        <circle cx="0" cy="0" r="5" fill="#35d28c"/>
+        <circle cx="0" cy="0" r="6" fill="none" stroke="#35d28c" stroke-width="2" opacity="0">
+          <animate attributeName="r" values="6;30" dur="1.8s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0" dur="1.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="0" cy="0" r="6" fill="none" stroke="#2ecf86" stroke-width="2" opacity="0">
+          <animate attributeName="r" values="6;30" dur="1.8s" begin="0.6s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0" dur="1.8s" begin="0.6s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="0" cy="0" r="6" fill="none" stroke="#35d28c" stroke-width="2" opacity="0">
+          <animate attributeName="r" values="6;30" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+      <text x="115" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#eaf6ef" font-family="monospace">probe.py</text>
+      <text x="115" y="106" text-anchor="middle" font-size="10.5" fill="#8aa39b">raw CNXN handshake · is sdbd alive?</text>
+    </g>
+  </g>
+</svg>
