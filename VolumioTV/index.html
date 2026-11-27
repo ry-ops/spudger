@@ -14,16 +14,60 @@
     transition:opacity .2s, transform .2s; pointer-events:none; z-index:5; white-space:nowrap; }
   #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
   #toast b { color:#35d28c; }
+  #splash { position:fixed; inset:0; z-index:10; background:#07090c; color:#eaf6ef;
+    display:flex; align-items:center; justify-content:center; transition:opacity .5s; }
+  #splash.hide { opacity:0; pointer-events:none; }
+  #splash .box { display:flex; flex-direction:column; align-items:center; gap:3vh; text-align:center; }
+  #splash h1 { font-size:3.2vh; font-weight:700; margin:0; letter-spacing:.5px; }
+  #splash p { font-size:1.9vh; color:#7fae9c; margin:0; }
+  .ring { width:9vh; height:9vh; border-radius:50%;
+    border:0.7vh solid rgba(53,210,140,.18); border-top-color:#35d28c; animation:spin 1s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  #splash .err { display:none; }
+  #splash.failed .load { display:none; }
+  #splash.failed .err { display:flex; flex-direction:column; align-items:center; gap:2.4vh; }
+  #retry { background:#35d28c; color:#06100b; border:0; border-radius:999px;
+    padding:1.4vh 5vw; font-size:2.1vh; font-weight:700; }
+  #retry:focus { outline:0.4vh solid #eaf6ef; outline-offset:0.4vh; }
+  @media (prefers-reduced-motion: reduce) { .ring { animation:none; } }
 </style>
 </head>
 <body>
   <iframe id="frame" src="about:blank"></iframe>
+  <div id="splash">
+    <div class="box load">
+      <div class="ring"></div>
+      <h1>Volumio</h1>
+      <p id="splashmsg">Connecting&hellip;</p>
+    </div>
+    <div class="box err">
+      <h1>Can&rsquo;t reach Volumio</h1>
+      <p id="errurl"></p>
+      <button id="retry">Retry</button>
+    </div>
+  </div>
   <div id="toast"></div>
 <script src="config.js"></script>
 <script>
   // VOLUMIO_URL comes from config.js (gitignored; copy config.example.js).
   var VOL = (window.VOLUMIO_URL || "http://volumio.local");
-  document.getElementById("frame").src = VOL + "/";
+  var frame = document.getElementById("frame");
+  var splash = document.getElementById("splash"), loadT;
+  document.getElementById("splashmsg").textContent = VOL.replace(/^https?:\/\//, "");
+  document.getElementById("errurl").textContent = VOL;
+  function loadVolumio(){
+    splash.className = "";                       // reset to the loading state
+    clearTimeout(loadT);
+    loadT = setTimeout(function(){ splash.classList.add("failed");
+      try { document.getElementById("retry").focus(); } catch(e){} }, 9000);
+    frame.src = VOL + "/?t=" + Date.now();
+  }
+  frame.addEventListener("load", function(){
+    if (frame.src.indexOf("about:blank") >= 0) return;
+    clearTimeout(loadT); splash.classList.add("hide");
+  });
+  document.getElementById("retry").addEventListener("click", loadVolumio);
+  loadVolumio();
   var toastEl = document.getElementById("toast"), toastT;
   function toast(l){ toastEl.innerHTML="<b>&#9834;</b> "+l; toastEl.classList.add("show");
     clearTimeout(toastT); toastT=setTimeout(function(){toastEl.classList.remove("show");},1200); }

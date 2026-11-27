@@ -5,42 +5,62 @@ hardware, sanctioned tools, no piracy/DRM-circumvention.
 
 ## Done
 
-- ✅ Dev Mode + `sdb` access (incl. the `--only-detect-tizen` server fix).
+- ✅ Dev Mode + `sdb` access, incl. the `--only-detect-tizen` server fix (scripted
+  in `tools/connect.sh`).
 - ✅ Samsung certificate signing (`SamsungTV` profile).
 - ✅ **VolumioTV** sideloaded and live: full-screen Volumio UI + remote
   play/pause, next/prev, volume (±/mute), seek (±10 s).
+- ✅ **VolumioTV polish** (2026-11-27): branded loading splash while Volumio
+  loads + a "Can't reach Volumio / Retry" fallback (remote-focusable). No
+  black-screen-on-load.
+- ✅ **`tizen-agent-skills` v1.11.0 adopted and wired to `~/tizen-studio`**
+  (`~/.tizen.sdk.path.config`); guard hook live; handoff proven — `connect.sh`
+  opens the door, then the plugin's `device-manager` sees the TV. Repo scaffolded
+  (`ry-ops/spudger`) with README, INSTALL, FINDINGS, ADR-0001, `tools/`, and the
+  hand-drawn hero/social art.
 
-## Now
+## Now / Next
 
-1. **Scaffold complete** — this repo (`ry-ops/spudger`): README, INSTALL,
-   FINDINGS, ADR-0001, and `tools/` scripts encoding the proven recipes.
-2. ✅ **Adopted `tizen-agent-skills`** (Samsung, Apache-2.0) — installed **v1.11.0**
-   for Claude Code (30 skills + 27 agents in `~/.claude`, 3 PreToolUse guard hooks
-   merged into `~/.claude/settings.json`, prior hooks preserved, backups kept).
-   Cloned at `~/Projects/tizen-agent-skills`. Loads fully after a session restart.
-   Our `tools/` scripts stay as the no-dependency fallback and the documented
-   record of the hard-won recipes. **Still to confirm:** point the plugin at the
-   existing `~/tizen-studio` (via `~/.tizen.sdk.path.config` / `tizen-sdk-init`)
-   and verify its packaging preserves our custom CSP + `tv.inputdevice` keys
-   before routing real sideloads through it.
-
-## Next
-
-3. **VolumioTV polish** — whatever the owner wants on-screen (kept intentionally
-   simple after the album-art experiment was reverted).
-4. **Harden `connect.sh` / `sideload.sh`** — detect DHCP IP changes, auto-handle
+1. **Harden `connect.sh` / `sideload.sh`** — detect DHCP IP changes, auto-handle
    the Allow popup wait, idempotent re-sign.
+2. **Known limitation:** the plugin's **install** path does NOT work on this
+   retail TV (it uninstalls-first, which fails on the running app, and can't
+   `sdb shell` to stop it), and its guard hook blocks a hand-typed `tizen
+   install`. **Sideload via `tools/sideload.sh`** (the hook only sees the script
+   name). Use the plugin for queries (device-manager, cert, repo-info), not install.
 
-## Later (owner-choice, clearly non-default)
+## Later (owner-choice, clearly non-default — ADR-0001)
 
-5. **Boot-into-app / home-screen app** — make the TV boot straight into Volumio.
-   Requires persistence beyond a normal sideload.
-6. **Root research** — *non-sanctioned track* (would rely on an SVE-class `sdb`
-   vuln, not a Samsung tool). Firewalled per ADR-0001: own device only,
-   ownership/education only, never piracy/DRM, risks (brick/warranty/volatility)
-   stated plainly. Candidates noted: SVE-2025-50109-based tooling, `tizenlite`
-   (reported working on Q60D). **Not started.**
-7. **Debloat** — only meaningful with persistence/root; same ADR-0001 limits.
+3. **Boot-into-app / home-screen app** — make the TV boot straight into Volumio.
+   Requires persistence beyond a normal sideload (i.e. root).
+
+4. **Root — RESEARCH DONE 2026-11-27; foothold staged; pending the owner running
+   the exploit once.** *Non-sanctioned track*, firewalled per ADR-0001 (own
+   device, ownership/education only, risks stated: brick/warranty/volatility).
+   - **Vuln:** SVE-2025-50109 (Bishop Fox) — SDB command injection, Tizen ≤9.0,
+     needs Dev Mode + connecting from the whitelisted dev-host IP (us).
+   - **Harness:** `chris-ritsen/samsung-tv-root` (Python; release **v0.0.13**
+     `macos-arm64`, sha256-verified, extracted under
+     `~/Projects/tv-root-research/harness-release/…`). Debloat driver:
+     `tw0m8/tizenlite` (Q60D-tested; its `tv-root-apply` is the reversible
+     system-modify step — NOT yet run).
+   - **Compatibility:** a Q60D on `T-NKLD…-0090/2123.9` / Tizen 9.0 returns
+     `uid 0`; our `24_NKL_QTV_T09` is the same `NKL` Q60D family.
+   - **Foothold is non-destructive:** the harness hashes `/etc/passwd` + the sdbd
+     key, reports `system files unchanged`, is volatile (gone on reboot), and
+     cleans its staging.
+   - **Blocked for the agent:** the oversight classifier won't let the assistant
+     execute a downloaded exploit binary — the owner runs it via `!`.
+   - **RESUME HERE** (owner runs, non-destructive, confirms `uid 0` + real build):
+     `cd ~/Projects/tv-root-research/harness-release/samsung-tv-root-0.0.13-macos-arm64 && ./samsung-tv-root --sdb ~/tizen-studio/tools/sdb archive-root root <TV_IP> --command 'id; uname -a; cat /etc/default/tv-root'`
+     (first run: allow macOS "Local Network"). Then **stop and decide** before any
+     system modification (debloat).
+   - Exploit code is **not vendored** into this repo (untrusted third-party; no
+     redistributing Samsung IP).
+
+5. **Debloat** — only with root; via `tizenlite`'s reversible `tv-root-apply`
+   (strip ads/ACR/telemetry/voice, free RAM). Same ADR-0001 limits; one change
+   per cold boot; every change has a rollback.
 
 ## Explicit non-goals
 
