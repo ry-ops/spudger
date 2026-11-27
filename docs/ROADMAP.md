@@ -14,11 +14,15 @@ hardware, sanctioned tools, no piracy/DRM-circumvention.
 
 1. **Scaffold complete** — this repo (`ry-ops/spudger`): README, INSTALL,
    FINDINGS, ADR-0001, and `tools/` scripts encoding the proven recipes.
-2. **Evaluate `tizen-agent-skills`** (Samsung, Apache-2.0, Claude Code host) as a
-   maintained backbone. Trial in isolation first; confirm its templates preserve
-   our custom CSP + `tv.inputdevice` keys and that it targets `~/tizen-studio`,
-   **before** letting it write to `~/.claude/settings.json`. Decide: adopt vs
-   keep our scripts.
+2. ✅ **Adopted `tizen-agent-skills`** (Samsung, Apache-2.0) — installed **v1.11.0**
+   for Claude Code (30 skills + 27 agents in `~/.claude`, 3 PreToolUse guard hooks
+   merged into `~/.claude/settings.json`, prior hooks preserved, backups kept).
+   Cloned at `~/Projects/tizen-agent-skills`. Loads fully after a session restart.
+   Our `tools/` scripts stay as the no-dependency fallback and the documented
+   record of the hard-won recipes. **Still to confirm:** point the plugin at the
+   existing `~/tizen-studio` (via `~/.tizen.sdk.path.config` / `tizen-sdk-init`)
+   and verify its packaging preserves our custom CSP + `tv.inputdevice` keys
+   before routing real sideloads through it.
 
 ## Next
 
