@@ -5,17 +5,27 @@
 # sdb in a broken `--only-detect-tizen` mode that fails every connect. We close
 # the IDE, kill stray servers, start a PLAIN `sdb nodaemon server`, then connect.
 #
-# Usage:   TV_IP=10.88.120.241 ./tools/connect.sh
+# Usage:   TV_IP=192.0.2.10 ./tools/connect.sh
 # Env:
-#   TV_IP      TV address            (default 10.88.120.241)
+#   TV_IP      TV address            (from device.local.env, or pass TV_IP=...)
 #   TV_PORT    sdb port              (default 26101)
 #   SDB        path to sdb           (default ~/tizen-studio/tools/sdb)
 #   KEEP_IDE   set to 1 to NOT close Tizen Studio (then connect may fail)
 set -euo pipefail
 
-TV_IP="${TV_IP:-10.88.120.241}"
+# Load private device config if present (gitignored; see device.example.env).
+REPO="$(cd "$(dirname "$0")/.." && pwd)"
+# shellcheck disable=SC1091
+[ -f "$REPO/device.local.env" ] && . "$REPO/device.local.env"
+
+TV_IP="${TV_IP:-}"
 TV_PORT="${TV_PORT:-26101}"
 SDB="${SDB:-$HOME/tizen-studio/tools/sdb}"
+if [ -z "$TV_IP" ]; then
+  echo "TV_IP is not set. Copy device.example.env -> device.local.env and fill it in," >&2
+  echo "or run with: TV_IP=<your.tv.ip> $0" >&2
+  exit 2
+fi
 TARGET="$TV_IP:$TV_PORT"
 
 [ -x "$SDB" ] || { echo "sdb not found/executable at $SDB" >&2; exit 1; }

@@ -23,12 +23,19 @@ devices you don't own. See [`docs/adr/0001-sanctioned-techniques-not-piracy.md`]
 
 ## Layout
 
+> **Device values stay private.** The real DUID, Wi-Fi MAC, and LAN IPs are not
+> in this repo. They live in `device.local.env` (gitignored) — copy
+> `device.example.env` and fill in your own. Likewise the app's Volumio URL lives
+> in `VolumioTV/config.js` (gitignored) — copy `VolumioTV/config.example.js`. The
+> docs and tools refer to these by name.
+
 ```
 spudger/
 ├── README.md
 ├── RUNBOOK.md              # operational quick-reference (the final-mile sideload)
-├── app/                    # (reserved) future app sources
-├── VolumioTV/              # the live app: index.html, config.xml, icon.png, signed .wgt
+├── device.example.env      # TEMPLATE → copy to device.local.env (gitignored)
+├── VolumioTV/              # the live app: index.html, config.xml, icon.png
+│   └── config.example.js   # TEMPLATE → copy to config.js (gitignored)
 ├── tools/
 │   ├── connect.sh          # cold-boot → plain sdb server → connect (the hard-won recipe)
 │   ├── sideload.sh         # package → sign → install → launch
@@ -44,9 +51,12 @@ spudger/
 ## Quick start
 
 1. Install the toolchain — see [`docs/INSTALL.md`](docs/INSTALL.md).
-2. Put the TV in Developer Mode and connect — see [`RUNBOOK.md`](RUNBOOK.md)
+2. Set your device values:
+   `cp device.example.env device.local.env` and
+   `cp VolumioTV/config.example.js VolumioTV/config.js`, then edit both.
+3. Put the TV in Developer Mode and connect — see [`RUNBOOK.md`](RUNBOOK.md)
    and run [`tools/connect.sh`](tools/connect.sh).
-3. Sideload the app — [`tools/sideload.sh`](tools/sideload.sh).
+4. Sideload the app — [`tools/sideload.sh`](tools/sideload.sh).
 
 ## Status
 

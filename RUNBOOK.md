@@ -3,12 +3,12 @@
 Target: **Samsung QN43Q60DAFXZA**, Tizen 9. Local development only.
 
 ## Known-good facts
-- TV IP: `10.88.120.241` (DHCP — reconfirm via `curl -s http://<ip>:8001/api/v2/`).
-- Mac (host PC) IP: `10.88.120.97`.
+- TV IP: `192.0.2.10` (DHCP — reconfirm via `curl -s http://<ip>:8001/api/v2/`).
+- Mac (host PC) IP: `192.0.2.2`.
 - **DUID** (needed for the distributor cert): `uuid:<YOUR-TV-DUID>`.
 - Toolchain: `~/tizen-studio/tools/sdb`, `~/tizen-studio/tools/ide/bin/tizen`.
 - App source: `VolumioTV/` here. Pre-built package: `Volumio.wgt` here.
-  - It loads `http://volumio.local/` then falls back to `http://10.88.120.14/` (the IP+HTTP combo that actually works — the TV has no mDNS and auto-upgrades to HTTPS, which Volumio refuses).
+  - It loads `http://volumio.local/` then falls back to `http://192.0.2.20/` (the IP+HTTP combo that actually works — the TV has no mDNS and auto-upgrades to HTTPS, which Volumio refuses).
 
 ## Current blocker
 Generic Tizen cert is **rejected** by the TV:
@@ -22,10 +22,10 @@ Tizen Studio install has no extension catalog ("No extension server exists"), so
 ### 1. Reconnect to the TV
 ```bash
 SDB=~/tizen-studio/tools/sdb
-$SDB connect 10.88.120.241:26101      # Allow the popup on the TV -> state goes offline -> device
-$SDB devices                          # expect: 10.88.120.241:26101  device  QN43Q60DAFXZA
+$SDB connect 192.0.2.10:26101      # Allow the popup on the TV -> state goes offline -> device
+$SDB devices                          # expect: 192.0.2.10:26101  device  QN43Q60DAFXZA
 ```
-If 26101 refuses: Dev Mode may have reset — re-enable (Apps -> 12345 -> On -> Host PC IP 10.88.120.97 -> **cold power-cycle**).
+If 26101 refuses: Dev Mode may have reset — re-enable (Apps -> 12345 -> On -> Host PC IP 192.0.2.2 -> **cold power-cycle**).
 
 ### 2. Install the full Tizen Studio GUI IDE (REQUIRED for the cert)
 The Certificate Manager is an Eclipse IDE plugin — the CLI-only install CANNOT create a
@@ -50,7 +50,7 @@ TZ=~/tizen-studio/tools/ide/bin/tizen
 SDB=~/tizen-studio/tools/sdb
 APP=~/Projects/samsung-tv-hack/VolumioTV
 $TZ package -t wgt -s <SamsungProfileName> -- "$APP"     # re-sign with the Samsung profile
-$SDB -s 10.88.120.241:26101 install "$APP/Volumio.wgt"
+$SDB -s 192.0.2.10:26101 install "$APP/Volumio.wgt"
 ```
 Success looks like `app_id[...] install completed`. Then the **Volumio** app appears on the TV's
 Apps row — open it and it loads the Volumio UI.

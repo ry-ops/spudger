@@ -9,6 +9,20 @@ Studio installer and paths.
 
 ---
 
+## 0a. Your device values (private)
+
+Device-identifying values are **never committed**. Create your private copies:
+
+```bash
+cp device.example.env device.local.env            # DUID, Wi-Fi MAC, LAN IPs, cert profile
+cp VolumioTV/config.example.js VolumioTV/config.js # the app's Volumio URL
+```
+
+Edit both with your own values (read DUID/MAC/IP from
+`curl -s http://<TV_IP>:8001/api/v2/`). Both files are gitignored; `config.js`
+is still bundled into the `.wgt` so the app works. The `tools/` scripts source
+`device.local.env` automatically.
+
 ## 0. Prerequisites
 
 | Need | Why | Install |
@@ -81,7 +95,7 @@ See [`RUNBOOK.md`](../RUNBOOK.md) for the full dance. Short version:
 ## 4. Connect (use the script — it encodes the hard-won fix)
 
 ```bash
-TV_IP=10.88.120.241 ./tools/connect.sh
+TV_IP=192.0.2.10 ./tools/connect.sh
 ```
 
 > Why a script: the Tizen Studio **IDE respawns `sdb` in a broken
@@ -97,7 +111,7 @@ press **Allow** on the TV popup.
 ## 5. Sideload
 
 ```bash
-TV_IP=10.88.120.241 CERT_PROFILE=SamsungTV APP=VolumioTV ./tools/sideload.sh
+TV_IP=192.0.2.10 CERT_PROFILE=SamsungTV APP=VolumioTV ./tools/sideload.sh
 ```
 
 This packages → signs → installs → launches. Success ends with

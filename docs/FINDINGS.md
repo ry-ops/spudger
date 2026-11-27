@@ -5,14 +5,19 @@ None of this is re-derivable from a repo or the vendor docs — it was earned.
 
 ## The device
 
+> Device-identifying values (DUID, Wi-Fi MAC, LAN IPs) live in the gitignored
+> **`device.local.env`** at the repo root — not in this file. Copy
+> `device.example.env` → `device.local.env` and fill in your own. The tools
+> source it automatically. Values referenced below as `$TV_DUID`, `$TV_IP`,
+> `$VOLUMIO_URL`, etc. come from there.
+
 - Model **QN43Q60DAFXZA**, 43" QLED. Model code `24_NKL_QTV_T09`.
 - **Tizen 9.0**, **armv7 / 32-bit**.
-- **DUID** `uuid:<YOUR-TV-DUID>` (needed for the distributor cert).
-- wifiMac `<TV-WIFI-MAC>`; IP `10.88.120.241` (DHCP — reconfirm via
-  `curl -s http://<ip>:8001/api/v2/`).
-- Volumio test target (the Pi): `http://10.88.120.14` (HTTP-only; no mDNS on the
-  TV, and the TV auto-upgrades to HTTPS — so always use the explicit
-  `http://` + IP).
+- **DUID** (`$TV_DUID`) is needed for the distributor cert. Read it from
+  `curl -s http://$TV_IP:8001/api/v2/` → `duid`.
+- `$TV_IP` is DHCP — reconfirm it the same way. Wi-Fi MAC is `$TV_WIFI_MAC`.
+- Volumio test target: `$VOLUMIO_URL` (HTTP-only; no mDNS on the TV, and the TV
+  auto-upgrades to HTTPS — so always use the explicit `http://` + IP).
 
 ## USB is a dead end
 

@@ -17,10 +17,13 @@
 </style>
 </head>
 <body>
-  <iframe id="frame" src="http://10.88.120.14/"></iframe>
+  <iframe id="frame" src="about:blank"></iframe>
   <div id="toast"></div>
+<script src="config.js"></script>
 <script>
-  var VOL = "http://10.88.120.14";
+  // VOLUMIO_URL comes from config.js (gitignored; copy config.example.js).
+  var VOL = (window.VOLUMIO_URL || "http://volumio.local");
+  document.getElementById("frame").src = VOL + "/";
   var toastEl = document.getElementById("toast"), toastT;
   function toast(l){ toastEl.innerHTML="<b>&#9834;</b> "+l; toastEl.classList.add("show");
     clearTimeout(toastT); toastT=setTimeout(function(){toastEl.classList.remove("show");},1200); }

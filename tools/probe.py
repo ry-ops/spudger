@@ -9,7 +9,7 @@ A healthy, authorized TV replies with a banner like:
     device::QN43Q60DAFXZA::0
 
 Usage:  python3 tools/probe.py [TV_IP] [PORT]
-        (defaults: 10.88.120.241  26101)
+        (defaults: 192.0.2.10  26101)
 """
 import socket
 import struct
@@ -68,7 +68,7 @@ def tcp_open(ip: str, port: int, timeout: float = 2.0) -> bool:
 
 
 def main():
-    ip = sys.argv[1] if len(sys.argv) > 1 else "10.88.120.241"
+    ip = sys.argv[1] if len(sys.argv) > 1 else "192.0.2.10"
     port = int(sys.argv[2]) if len(sys.argv) > 2 else 26101
     print(f"Probing {ip}:{port} ...")
 
