@@ -1,7 +1,7 @@
 # Spudger
 
 <p align="center">
-  <img src="assets/hero-potato-surgeon.svg" alt="A potato surgeon using a spudger to operate on a TV that flickers to life playing music" width="820">
+  <img src="assets/hero.svg" alt="A hand-drawn potato with arms and legs chasing a pack of panicked TVs across the hills" width="900">
 </p>
 
 > A spudger is the nylon pry tool every teardown uses to pop open a sealed
