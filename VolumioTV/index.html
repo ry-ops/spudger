@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Volumio</title>
+<style>
+  html, body { margin:0; padding:0; height:100%; width:100%; background:#07090c; overflow:hidden;
+    font-family:-apple-system,"Segoe UI",Roboto,sans-serif; }
+  #frame { border:0; width:100vw; height:100vh; display:block; background:#07090c; }
+  #toast { position:fixed; left:50%; bottom:6vh; transform:translateX(-50%) translateY(2vh);
+    background:rgba(8,12,18,.9); border:1px solid rgba(53,210,140,.5); color:#eaf6ef;
+    padding:1.2vh 2.4vw; border-radius:999px; font-size:1.8vh; opacity:0;
+    transition:opacity .2s, transform .2s; pointer-events:none; z-index:5; white-space:nowrap; }
+  #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  #toast b { color:#35d28c; }
+</style>
+</head>
+<body>
+  <iframe id="frame" src="http://10.88.120.14/"></iframe>
+  <div id="toast"></div>
+<script>
+  var VOL = "http://10.88.120.14";
+  var toastEl = document.getElementById("toast"), toastT;
+  function toast(l){ toastEl.innerHTML="<b>&#9834;</b> "+l; toastEl.classList.add("show");
+    clearTimeout(toastT); toastT=setTimeout(function(){toastEl.classList.remove("show");},1200); }
+
+  function cmd(q, label){
+    try { fetch(VOL+"/api/v1/commands/?cmd="+q,{mode:"no-cors",cache:"no-store"}); }
+    catch(e){ var i=new Image(); i.src=VOL+"/api/v1/commands/?cmd="+q+"&_="+Date.now(); }
+    if(label) toast(label);
+  }
+  function seekBy(delta,label){
+    fetch(VOL+"/api/v1/getState",{cache:"no-store"}).then(function(r){return r.json();}).then(function(s){
+      var cur=(s.seek||0)/1000, dur=s.duration||1e9;
+      var pos=Math.max(0, Math.min(dur, cur+delta));
+      cmd("seek&position="+Math.floor(pos), label);
+    }).catch(function(){ toast(label); });
+  }
+
+  // ---- remote keys ----
+  var want=["MediaPlayPause","MediaPlay","MediaPause","MediaStop","MediaTrackPrevious","MediaTrackNext",
+    "MediaRewind","MediaFastForward","VolumeUp","VolumeDown","VolumeMute"];
+  try { var ok={}; tizen.tvinputdevice.getSupportedKeys().forEach(function(k){ok[k.name]=1;});
+    want.forEach(function(n){ if(ok[n]){ try{tizen.tvinputdevice.registerKey(n);}catch(e){} } }); } catch(e){}
+
+  var ACTIONS={
+    10252:function(){cmd("toggle","Play / Pause");}, 415:function(){cmd("play","Play");},
+       19:function(){cmd("pause","Pause");}, 413:function(){cmd("stop","Stop");},
+    10233:function(){cmd("next","Next track");}, 10232:function(){cmd("prev","Previous track");},
+      417:function(){seekBy(10,"⇥ +10s");}, 412:function(){seekBy(-10,"⇤ -10s");},
+      447:function(){cmd("volume&volume=plus","Volume +");},
+      448:function(){cmd("volume&volume=minus","Volume −");},
+      449:function(){cmd("volume&volume=mute","Mute");}
+  };
+  window.addEventListener("keydown",function(e){ var a=ACTIONS[e.keyCode]; if(a){e.preventDefault();a();} });
+  window.focus();
+</script>
+</body>
+</html>
